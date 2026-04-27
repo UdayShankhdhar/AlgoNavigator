@@ -1,0 +1,809 @@
+/* PathfindingVisualizer.css
+   UI: polished animations, gradients, compact layout.
+   Bars option removed from viz control.
+*/
+
+/* Root layout */
+.pfv-root {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 1rem;
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- CONTROL PANEL (TOP) - polished ---------- */
+.pfv-controls-horizontal-new {
+  width: 100%;
+  background: linear-gradient(180deg, rgba(12,18,30,0.98), rgba(8,12,22,0.98));
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 12px 40px rgba(2,6,23,0.45);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  align-items: start;
+  transition: box-shadow 240ms ease, transform 240ms ease;
+}
+
+/* subtle hover raise for the entire panel */
+.pfv-controls-horizontal-new:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 50px rgba(2,6,23,0.5);
+}
+
+/* Column */
+.pfv-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Column titles */
+.pfv-col-title {
+  font-size: 13px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.96);
+  margin: 0;
+  letter-spacing: 0.8px;
+}
+.pfv-col-title.small {
+  margin-top: 6px;
+  font-size: 11.5px;
+  opacity: 0.86;
+}
+
+/* Full width helper */
+.full { width: 100%; }
+
+/* Mode buttons container */
+.mode-buttons {
+  display: flex;
+  gap: 13px;
+  align-items: center;
+}
+
+/* ===== GRID CARD (CENTERED) ===== */
+.pfv-grid-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(180deg, rgba(6,10,20,0.88), rgba(8,12,26,0.82));
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 14px 40px rgba(2,6,23,0.36);
+}
+
+/* grid inner */
+.pfv-grid {
+  display: inline-block;
+  padding: 6px;
+  border-radius: 8px;
+  background: rgba(6, 10, 20, 0.48);
+  transition: transform 220ms cubic-bezier(.2,.9,.3,1), box-shadow 220ms;
+}
+.pfv-grid:hover { transform: translateY(-4px); box-shadow: 0 18px 36px rgba(0,0,0,0.35); }
+
+/* row of nodes */
+.pfv-row {
+  display: flex;
+  gap: 6px;
+  user-select: none;
+  justify-content: center;
+}
+
+/* Node / cell styles */
+.node {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  box-sizing: border-box;
+  background: rgba(20, 28, 44, 0.92);
+  border: 1px solid rgba(255,255,255,0.03);
+  transition: background-color 180ms ease, transform 160ms ease, box-shadow 160ms ease;
+  will-change: transform, background-color;
+}
+.node:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
+
+/* start / finish */
+.node-start {
+  background: linear-gradient(135deg,#10b981,#059669);
+  box-shadow: 0 6px 18px rgba(16,185,129,0.14);
+  transform-origin: center;
+}
+.node-finish {
+  background: linear-gradient(135deg,#ef4444,#f87171);
+  box-shadow: 0 6px 18px rgba(239,68,68,0.12);
+}
+
+/* WALL color improved (purple) */
+.node-wall {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  border: 1px solid rgba(104, 37, 201, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+}
+
+/* visited & path animations */
+.node-visited {
+  background: #3ccfcf; /* or whatever your theme uses */
+  transition: background 0.2s ease;
+}
+
+@keyframes visitedPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1.02); }
+}
+
+.node-shortest-path {
+  background: linear-gradient(135deg,#f59e0b,#fbbf24);
+  transform: scale(1.03);
+  box-shadow: 0 8px 26px rgba(245,158,11,0.12);
+  animation: pathGlow 420ms ease;
+}
+@keyframes pathGlow {
+  0% { box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
+  50% { box-shadow: 0 12px 30px rgba(251,191,36,0.18); }
+  100% { box-shadow: 0 8px 26px rgba(245,158,11,0.12); }
+}
+
+/* ===== Buttons (polished) ===== */
+.btn {
+  padding: 0.6rem 0.9rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 0.95rem;
+  transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* full-width action buttons */
+.btn.full, .btn.btn-run.full, .btn.btn-clear.full, .btn.btn-reset.full {
+  width: 100%;
+  padding: 0.95rem 1rem;
+  border-radius: 12px;
+  font-size: 1rem;
+}
+
+/* small buttons */
+.btn.small {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  border-radius: 10px;
+}
+
+/* color variants with gentle animated gradient */
+.btn-run {
+  background: linear-gradient(90deg,#3b82f6,#2563eb);
+  color: white;
+  box-shadow: 0 10px 30px rgba(37,99,235,0.12);
+}
+.btn-run:hover:not(:disabled) {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 42px rgba(37,99,235,0.18);
+}
+
+.btn-clear {
+  background: linear-gradient(90deg,#ef4444,#dc2626);
+  color: white;
+  box-shadow: 0 10px 30px rgba(220,38,38,0.10);
+}
+.btn-clear:hover:not(:disabled) {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 42px rgba(220,38,38,0.16);
+}
+
+.btn-reset {
+  background: linear-gradient(90deg,#8b5cf6,#7c3aed);
+  color: white;
+  box-shadow: 0 10px 30px rgba(139,92,246,0.12);
+}
+.btn-reset:hover:not(:disabled) {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 42px rgba(124,58,237,0.16);
+}
+
+/* active state */
+.btn-active { outline: 3px solid rgba(59,130,246,0.12); transform: translateY(-3px); }
+
+/* hover */
+.btn:hover:not(:disabled) { transform: translateY(-3px); }
+
+/* disabled */
+.btn:disabled { opacity: 0.58; cursor: not-allowed; transform: none; }
+
+/* selects and sliders */
+.select {
+  background: rgba(255,255,255,0.03);
+  color: inherit;
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 800;
+}
+.slider {
+  width: 100%;
+  accent-color: #3b82f6;
+}
+
+/* Visualization segmented control (compact) */
+.viz-toggle {
+  display: inline-flex;
+  gap: 8px;
+  background: rgba(255,255,255,0.02);
+  padding: 6px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.04);
+  align-items: center;
+  margin-top: 6px;
+}
+
+.viz-btn {
+  background: transparent;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 10px;
+  color: rgba(255,255,255,0.88);
+  font-weight: 800;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  cursor: pointer;
+  transition: all 180ms ease;
+  font-size: 0.95rem;
+}
+.viz-ico { font-size: 1rem; opacity: 0.95; }
+.viz-active {
+  background: linear-gradient(90deg,#3b82f6,#2563eb);
+  color: white;
+  box-shadow: 0 8px 26px rgba(37,99,235,0.14);
+  transform: translateY(-3px);
+}
+.viz-btn:hover:not(.viz-active) { background: rgba(255,255,255,0.02); transform: translateY(-2px); }
+
+/* ===== Info panel bottom ===== */
+.pfv-info-card-bottom {
+  background: linear-gradient(180deg, rgba(6,10,20,0.78), rgba(8,12,26,0.68));
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 10px 28px rgba(2,6,23,0.28);
+}
+.pfv-info-card-bottom h3 { margin: 0 0 8px 0; }
+.info-content { font-size: 13px; color: rgba(255,255,255,0.95); line-height: 1.35; }
+
+/* Responsive: controls wrap into rows on small screens */
+@media (max-width: 980px) {
+  .pfv-controls-horizontal-new {
+    grid-template-columns: 1fr;
+  }
+  .pfv-grid { transform: scale(0.98); }
+}
+
+/* Smaller screens - shrink nodes and spacing */
+@media (max-width: 520px) {
+  .node { width: 14px; height: 14px; border-radius: 4px; }
+  .pfv-grid { padding: 6px; }
+  .slider { width: 100%; }
+  .mode-buttons { gap: 6px; }
+  .viz-toggle { gap: 6px; padding: 4px; }
+}
+
+.pfv-row {
+  display: flex;
+  gap: 6px;                 /* horizontal spacing stays same */
+  margin-bottom: 6px;       /* NEW → increases vertical spacing */
+  user-select: none;
+  justify-content: center;
+}
+/* ----- Wall visual improvements (thicker, glow, draw animation) ----- */
+
+/* make wall visually thicker and richer */
+.node-wall {
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 60%);
+  border: 1px solid rgba(99, 48, 198, 0.72);
+  box-shadow:
+    inset 0 2px 6px rgba(255,255,255,0.03),
+    0 6px 18px rgba(99,48,198,0.08);
+  transition:
+    background 160ms cubic-bezier(.2,.9,.3,1),
+    transform 120ms cubic-bezier(.2,.9,.3,1),
+    box-shadow 200ms ease,
+    border-color 160ms ease;
+  transform-origin: center;
+}
+
+/* subtle pop when a wall is newly toggled */
+.node-wall.toggle-pop {
+  transform: scale(1.08);
+  box-shadow:
+    inset 0 3px 10px rgba(255,255,255,0.04),
+    0 10px 34px rgba(124,58,237,0.18);
+}
+
+/* hover effect for walls (gives feedback while moving the mouse) */
+.node-wall:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow:
+    inset 0 3px 8px rgba(255,255,255,0.03),
+    0 12px 36px rgba(124,58,237,0.18);
+  border-color: rgba(124,58,237,0.9);
+}
+
+/* small animation that briefly adds toggle-pop class then removes (JS helper) */
+@keyframes wallPop {
+  0% { transform: scale(1); box-shadow: inset 0 2px 6px rgba(255,255,255,0.03); }
+  40% { transform: scale(1.12); box-shadow: 0 14px 40px rgba(124,58,237,0.22); }
+  100% { transform: scale(1.03); box-shadow: 0 10px 34px rgba(124,58,237,0.18); }
+}
+
+/* If you want CSS-only timed effect, uncomment and use the class `node-wall.pop-anim` via JS */
+/* .node-wall.pop-anim { animation: wallPop 320ms ease forwards; } */
+
+/* optional drawing-glow when the user drags quickly — controlled by adding `.drawing` on the grid container */
+.pfv-grid.drawing .node-wall:not(.node-start):not(.node-finish) {
+  box-shadow:
+    inset 0 2px 6px rgba(255,255,255,0.03),
+    0 14px 44px rgba(124,58,237,0.20);
+}
+/* ---------- Visited bubbles (Clement-like) ---------- */
+
+/* make sure node is a positioning container */
+.node {
+  position: relative; /* keep existing styles but ensure this is present */
+  overflow: visible;  /* bubbles can extend outside the cell */
+}
+
+/* bubble basic */
+.pfv-bubble {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #4b83f5;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.2);
+  animation: pfvPop 0.55s ease-out forwards;
+}
+
+@keyframes pfvPop {
+  0%   { opacity: 0; transform: scale(0.2); }
+  40%  { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.5); }
+}
+
+
+/* smaller and darker inner bubble for variety */
+.pfv-bubble.small {
+  width: 6px;
+  height: 6px;
+  background: rgba(59,92,180,0.9);
+  box-shadow: 0 1px 4px rgba(59,92,180,0.10);
+}
+
+/* slightly different tone for path bubbles */
+.pfv-bubble.path {
+  background: rgba(251,191,36,0.95);
+  box-shadow: 0 2px 6px rgba(251,191,36,0.12);
+}
+
+/* pop + fade animation */
+@keyframes pfvBubblePop {
+  0% {
+    transform: translate(-50%, -50%) scale(0.25);
+    opacity: 0;
+  }
+  40% {
+    transform: translate(-50%, -50%) scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* staggered animation using inline style delay (no extra CSS required) */
+/* ---------- Clement-style ring bubbles (visited frontier) ---------- */
+
+/* ensure node is a positioning container */
+.node {
+  position: relative;
+  overflow: visible;
+}
+
+/* ring bubble common */
+.pfv-bubble {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0);
+  will-change: transform, opacity, left, top;
+  background: rgba(59,130,246,0.96); /* blue-ish by default */
+  box-shadow: 0 2px 6px rgba(59,130,246,0.14);
+  transition: opacity 180ms linear;
+  /* animation drives scale and fade */
+  animation: pfvBubbleRing 520ms cubic-bezier(.2,.9,.3,1) forwards;
+}
+
+/* slightly smaller inner dots for variety */
+.pfv-bubble.small {
+  width: 6px;
+  height: 6px;
+  background: rgba(59,92,180,0.95);
+  box-shadow: 0 1px 4px rgba(59,92,180,0.10);
+}
+
+/* path bubble tone */
+.pfv-bubble.path {
+  background: rgba(251,191,36,0.96);
+  box-shadow: 0 2px 6px rgba(251,191,36,0.12);
+}
+
+/* subtle shrink at start -> pop -> fade out */
+@keyframes pfvBubbleRing {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  30% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* quicker cleanup if user wants smaller motion on mobile */
+@media (max-width: 520px) {
+  .pfv-bubble { width: 6px; height: 6px; animation-duration: 420ms; }
+}
+/* ============================
+   START NODE
+   ============================ */
+.node-start {
+  background: #4ade80 !important;      /* bright green */
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.6);
+  border: 1px solid rgba(34,197,94,0.7);
+}
+
+/* ============================
+   FINISH / END NODE
+   ============================ */
+.node-finish {
+  background: #f87171 !important;      /* soft red */
+  box-shadow: 0 0 10px rgba(248, 113, 113, 0.6);
+  border: 1px solid rgba(239,68,68,0.7);
+}
+
+/* ============================
+   VISITED NODES
+   ============================ */
+.node-visited {
+  background: #60a5fa !important;      /* light blue (Clement-like) */
+  border: 1px solid rgba(59,130,246,0.5);
+  box-shadow: 0 0 8px rgba(59,130,246,0.25);
+  transition: background 0.2s ease;
+}
+
+/* ============================
+   SHORTEST PATH (optional)
+   ============================ */
+.node-shortest-path {
+  background: #facc15 !important;      /* yellow highlight */
+  border: 1px solid rgba(234,179,8,0.7);
+  box-shadow: 0 0 10px rgba(250,204,21,0.6);
+}
+/* Styled select + option to match dark UI and prevent white flash */
+.select {
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.95);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 800;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  caret-color: auto;
+  /* keep dropdown arrow visible but subtle */
+  background-image: linear-gradient(45deg, transparent 50%, rgba(255,255,255,0.45) 50%),
+                    linear-gradient(135deg, rgba(255,255,255,0.45) 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(1em + 2px), calc(100% - 13px) calc(1em + 2px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+/* Force options to use dark bg and light text on some browsers that render white by default */
+.select option {
+  background: rgba(6,10,20,0.95); /* dark dropdown row background */
+  color: rgba(255,255,255,0.95);
+}
+
+/* On focus show subtle ring */
+.select:focus {
+  box-shadow: 0 8px 20px rgba(59,130,246,0.08);
+  border-color: rgba(59,130,246,0.18);
+}
+
+/* On small screens, use native dropdown but keep text color */
+@media (max-width: 480px) {
+  .select {-webkit-appearance: menulist; }
+  .select option { color: rgba(255,255,255,0.95); }
+}
+/* ===================== Enhanced Info Panel (PFV) ===================== */
+/* Append this to PathfindingVisualizer.css (or replace the old info block) */
+
+.pfv-info-card-bottom {
+  width: 100%;
+  max-width: 1200px;
+  margin: 18px auto 36px;
+  background: linear-gradient(180deg, rgba(6,10,20,0.55), rgba(6,10,20,0.40));
+  color: rgba(255,255,255,0.96);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 14px 40px rgba(2,6,23,0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border: 1px solid rgba(255,255,255,0.04);
+  backdrop-filter: blur(6px) saturate(120%);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.pfv-info-card-bottom:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(2,6,23,0.72);
+}
+
+/* top row */
+.pfv-info-card-bottom .info-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pfv-info-card-bottom .info-left {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+}
+
+.pfv-info-card-bottom h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  letter-spacing: 0.2px;
+  color: #e6eefc;
+  text-shadow: 0 2px 10px rgba(59,130,246,0.04);
+}
+.pfv-info-card-bottom .algo-meta {
+  display:flex;
+  gap:14px;
+  margin-top:6px;
+  font-size:0.88rem;
+  color: rgba(255,255,255,0.72);
+}
+
+/* right area: status + quick controls */
+.pfv-info-card-bottom .info-right {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  align-items:flex-end;
+  min-width: 220px;
+}
+
+.pfv-info-card-bottom .status-line {
+  display:flex;
+  gap:10px;
+  align-items:center;
+  font-size:0.95rem;
+  color: rgba(255,255,255,0.92);
+}
+
+.pfv-info-card-bottom .status-line strong { color: #fff; font-weight:800; }
+
+.pfv-info-card-bottom .btn.small {
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  color: rgba(255,255,255,0.95);
+  cursor: pointer;
+  transition: transform 120ms ease, background 120ms ease;
+}
+.pfv-info-card-bottom .btn.small:active { transform: translateY(1px); }
+.pfv-info-card-bottom .btn.small[disabled] { opacity: 0.5; cursor: not-allowed; }
+
+/* stats row */
+.pfv-info-card-bottom .stats-brief {
+  display:flex;
+  gap:12px;
+  margin-top:6px;
+  font-weight:700;
+  color: rgba(255,255,255,0.92);
+  font-size:0.92rem;
+  align-items:center;
+}
+
+/* little pill for stat */
+.pfv-info-card-bottom .stat-pill {
+  background: rgba(255,255,255,0.03);
+  padding:6px 10px;
+  border-radius:999px;
+  display:inline-flex;
+  gap:8px;
+  align-items:center;
+  border: 1px solid rgba(255,255,255,0.03);
+  min-width:74px;
+  justify-content:center;
+}
+.pfv-info-card-bottom .stat-pill strong { font-weight:800; color:#fff; }
+
+/* bottom row */
+.pfv-info-card-bottom .info-bottom {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  border-top: 1px solid rgba(255,255,255,0.03);
+  padding-top:12px;
+}
+
+/* path summary */
+.pfv-info-card-bottom .path-summary {
+  font-size:0.95rem;
+  color: rgba(255,255,255,0.9);
+  gap:14px;
+  display:flex;
+  align-items:center;
+}
+
+/* legend compact */
+.pfv-info-card-bottom .legend-compact {
+  display:flex;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+/* legend item */
+.pfv-info-card-bottom .legend-item {
+  display:flex;
+  gap:8px;
+  align-items:center;
+  color: rgba(255,255,255,0.82);
+  font-size:0.92rem;
+}
+
+/* swatches */
+.pfv-info-card-bottom .legend-swatch {
+  width:14px;
+  height:14px;
+  border-radius:4px;
+  display:inline-block;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.45);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+.pfv-info-card-bottom .legend-swatch.start { background: linear-gradient(180deg,#34d399,#10b981); }
+.pfv-info-card-bottom .legend-swatch.finish { background: linear-gradient(180deg,#fb7185,#ef4444); }
+.pfv-info-card-bottom .legend-swatch.visited { background: linear-gradient(180deg,#60a5fa,#3b82f6); }
+.pfv-info-card-bottom .legend-swatch.path { background: linear-gradient(180deg,#facc15,#f59e0b); }
+
+/* export/download button (small icon style) */
+.pfv-info-card-bottom .export-btn {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 10px;
+  border-radius:10px;
+  background: rgba(255,255,255,0.02);
+  color: rgba(255,255,255,0.92);
+  border: 1px solid rgba(255,255,255,0.04);
+  cursor:pointer;
+  font-weight:700;
+  font-size:0.88rem;
+}
+.pfv-info-card-bottom .export-btn:active { transform: translateY(1px); }
+
+/* small responsive tweaks */
+@media (max-width: 880px) {
+  .pfv-info-card-bottom .info-right { align-items:flex-start; width:100%; order:2; }
+  .pfv-info-card-bottom .info-left { width:100%; order:1; }
+  .pfv-info-card-bottom { padding: 12px; }
+  .pfv-info-card-bottom .stats-brief { gap:8px; font-size:0.88rem; }
+}
+
+/* accessibility: focus outlines */
+.pfv-info-card-bottom .btn.small:focus,
+.pfv-info-card-bottom .export-btn:focus,
+.pfv-info-card-bottom select:focus,
+.pfv-info-card-bottom .stat-pill:focus {
+  outline: 3px solid rgba(59,130,246,0.14);
+  outline-offset: 3px;
+}
+
+/* subtle micro-animation for numbers */
+.pfv-info-card-bottom .stat-pill strong,
+.pfv-info-card-bottom .stats-brief strong {
+  transition: transform 220ms cubic-bezier(.2,.9,.2,1);
+  display:inline-block;
+}
+.pfv-info-card-bottom .stat-pill.updated strong,
+.pfv-info-card-bottom .stats-brief.updated strong {
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* end enhanced info panel */
+/* small carving bubble */
+.pfv-bubble-maze {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(250,250,250,0.14);
+  box-shadow: 0 6px 16px rgba(59,130,246,0.08);
+  pointer-events: none;
+  transform: scale(0.9);
+  transition: opacity 300ms ease, transform 320ms ease;
+}
+/* Center visualization mode buttons */
+.viz-toggle {
+  display: flex;
+  width: 100%;                /* take full column width */
+  justify-content: center;    /* center children horizontally */
+  align-items: center;        /* center vertically */
+  gap: 12px;                  /* space between buttons */
+  padding: 6px 12px;          /* keep some horizontal padding */
+  background: rgba(202, 43, 43, 0.02);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.04);
+  box-sizing: border-box;
+}
+
+/* Keep buttons visually the same but centered */
+.viz-btn {
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+/* Active state */
+.viz-active {
+  background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+  color: #fff !important;
+  font-weight: 800;
+  box-shadow: 0 10px 30px rgba(59,130,246,0.25);
+  transform: translateY(-2px);
+  border-radius: 10px;
+}
+
+.pfv-graph-card {
+  width: 100%;
+  margin-top: 12px;
+}
