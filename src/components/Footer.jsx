@@ -258,7 +258,7 @@ const Footer = ({ theme }) => {
                 WebkitTextFillColor: "transparent",
                 fontWeight: "600"
               }}>
-                Tanmay Singh
+                Uday Shankhdhar
               </span>
             </p>
             <p style={{ margin: "0.5rem 0 0 0", fontSize: "0.875rem" }}>
